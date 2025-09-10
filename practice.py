@@ -268,11 +268,136 @@ print(num_list)
 '''
 
 # 사전
-cabinet = {3:"유재석", 100: "김태호"}
+'''cabinet = {3:"유재석", 100: "김태호"}
 print(cabinet[3])
 print(cabinet[100])
 
 # print(cabinet[5]) # 만약 키값에 5를 넣게 되면 5라는 키는 존재하지 않기 때문에 에러를 뱉는다.
-print(cabinet.get(5)) # get()을 사용하면 키값이 없으면 None이 출력된다. print(cabinet.get(5, "사용가능")) None대체어도 선택 가능
+# print(cabinet.get(5)) # get()을 사용하면 키값이 없으면 None이 출력된다. print(cabinet.get(5, "사용가능")) None대체어도 선택 가능
 
-print(cabinet[3])
+print(3 in cabinet) # True
+print(5 in cabinet) # False
+
+
+cabinet = {"A-3": "유재석", "B-100": "김태호"}
+print(cabinet["A-3"])
+print(cabinet["B-100"])
+
+# 키값 업데이트
+print(cabinet)
+cabinet["A-3"] = "김종국" # 기존에 있던 값 유재석 대신 김종국이 저장된다.
+cabinet["C-20"] = "조세호"
+print(cabinet)
+
+# 키 삭제
+del cabinet["A-3"]
+print(cabinet)
+
+# key들만 출력 
+print(cabinet.keys())
+# value들만 출력
+print(cabinet.values())
+
+# key, value 쌍으로 출력
+print(cabinet.items())
+
+# cabinet 필드 값 초기화
+cabinet.clear()
+print(cabinet)
+'''
+
+# 튜플
+'''
+menu = ("돈까스", "치즈까스")
+print(menu[0])
+print(menu[1])
+
+# 튜플은 값을 add 할 수 없음 
+# menu.add("생선까스")
+
+# 필드 값을 대입하는 법
+name = "김종국"
+age = 20
+hobby = "코딩"
+print(name, age, hobby)
+
+# 튜플을 통해서 필드 값을 대입하는 법 
+(name, age, hobby) = ("김종국", 20, "코딩")
+print(name, age, hobby)
+'''
+
+# 집합 (set)
+# 중복 안 됨, 순서 없음(순서는 보장x)
+'''
+my_set = {1,2,3,3,3} # set는 {}로 되어 있음 !!!
+print(my_set)
+java = {"유재석", "김태호", "양세형"}
+python = set(["유재석", "박명수"]) # 리스트로 먼저 만든 다음에 set으로 감싼 형태
+
+# 교집합 (java와 python을 모두 할 수 있는 개발자)
+print(java & python)
+print(java.intersection(python))
+
+# 합집합 (java 또는 python 할 수 있는 개발자)
+print(java | python)
+print(java.union(python))
+
+# 차집합 (java 할 수 있지만 python은 할 줄 모르는 개발자)
+print(java - python) # 김태호, 양세형
+print(java.difference(python))
+
+# add (python 할 줄 아는 사람이 늘어남)
+python.add("김태호")
+print(python)
+
+# remove (java를 까먹음)
+java.remove("김태호")
+print("자바를 까먹은 김태호를 뺀 결과값 : ",java)
+'''
+
+# 자료구조의 변경
+# set 자료형으로 생성
+'''
+menu = {"커피", "우유", "주스"} # 집합(set) 유형임
+print(menu, type(menu))
+
+# list 로 변환
+menu = list(menu)
+print(menu, type(menu))
+
+# tuple 로 변환
+menu = tuple(menu)
+print(menu, type(menu))
+'''
+
+'''
+파이썬 대회 주최
+댓글 이벤트 진행 
+댓글 작성자 추천을 통해서 1명 치킨, 3명은 커피 쿠폰 
+조건 1) 댓글은 20명이 작성, 아이디는 1~20
+조건 2) 무작위로 추첨하되 중복 불가 
+조건 3) random 모듈의 shuffle, sample 활용
+'''
+# 내가 푼 방법
+from random import *
+comments = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+# 위처럼 일일이 만들지 않아도 됨
+comments = list(range(1,21)) # 1~20까지 숫자를 생성
+shuffle(comments)
+chicken = sample(comments, 1)
+tuple = tuple(comments)
+
+# set으로 만든 다음에 차집합을 가지고 온다.
+setData1 = set(comments)
+setData2 = set(chicken)
+comments2 = setData1 - setData2 
+coffee = sample(list(comments2), 2)
+
+print('''
+--- 담청자 발표 ---
+치킨 당첨자 : {0}
+커피 당첨자 : {1}
+--- 축하합니다 ----
+      '''
+    .format(chicken, coffee))
+
