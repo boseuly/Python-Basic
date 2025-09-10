@@ -275,3 +275,4 @@ print(cabinet[100])
 # print(cabinet[5]) # 만약 키값에 5를 넣게 되면 5라는 키는 존재하지 않기 때문에 에러를 뱉는다.
 print(cabinet.get(5)) # get()을 사용하면 키값이 없으면 None이 출력된다. print(cabinet.get(5, "사용가능")) None대체어도 선택 가능
 
+print(cabinet[3])
