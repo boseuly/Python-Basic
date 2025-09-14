@@ -95,7 +95,7 @@ firebat1.damaged(25)
 
 # 메딕 : 의무병
 '''
-
+# git
 # 상속
 # 부모 클래스
 class Unit:
