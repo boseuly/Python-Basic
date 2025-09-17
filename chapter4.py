@@ -121,7 +121,7 @@ class Unit:
 # 자식 클래스(자손 클래스)
 class AttackUnit(Unit):
     def __init__(self, name, hp, spped, damage):
-        Unit.__init__(self, name, hp, speed)
+        Unit.__init__(self, name, hp, 0)
         self.damage = damage
 
     # 메소드
