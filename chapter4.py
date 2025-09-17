@@ -99,20 +99,15 @@ firebat1.damaged(25)
 # 상속
 # 부모 클래스
 class Unit:
-    def __init__(self, name, hp):
+    def __init__(self, name, hp, speed):
         self.name = name 
         self.hp = hp 
-
-# 자식 클래스(자손 클래스)
-class AttackUnit(Unit):
-    def __init__(self, name, hp, damage):
-        Unit.__init__(self, name, hp)
-        self.damage = damage
-
-    # 메소드
-    def attack(self, location):
-        print("{0} : {1} 방향으로 적군을 공격 합니다. [공격력 {2}]".format(self.name, location, self.damage))
-
+        self.speed = speed 
+        
+    def move(self, location):
+        print("[지상 유닛 이동]")
+        print("{0} : {1} 방향으로 이동합니다. [속도 {2}]".format(self.name, location, self.speed))
+    
     # 메소드
     def damaged(self, damage):
         print("{0} : {1} 데미지를 잃었습니다.".format(self.name, damage))
@@ -120,6 +115,58 @@ class AttackUnit(Unit):
         print("{0}: 현재 체력은 {1} 입니다.".format(self.name, self.hp))
         if self.hp <= 0:
             print("{0} : 파괴되었습니다.".format(self.name))
+
+        
+
+# 자식 클래스(자손 클래스)
+class AttackUnit(Unit):
+    def __init__(self, name, hp, spped, damage):
+        Unit.__init__(self, name, hp, speed)
+        self.damage = damage
+
+    # 메소드
+    def attack(self, location):
+        print("{0} : {1} 방향으로 적군을 공격 합니다. [공격력 {2}]".format(self.name, location, self.damage))
+
+# 마린
+class Marine(AttackUnit):
+    def __init__(self):
+        AttackUnit.__init__(self, "마린", 40, 1, 5)
+    
+    # 스팀팩 : 일정 시간 동안 이동 및 공격 속도를 증가, 체력 10감소
+    def stimpack(self):
+        if self.hp > 10:
+            self.hp -= 10
+            print("{0} : 스팀팩을 사용합니다. (HP 10 감소)".format(self.name))
+        else:
+            print("{0} : 체력이 부족하여 스팀팩을 사용하지 않습니다.".format(self.name))
+            
+# 탱크
+class Tank(AttackUnit):
+    # 시즈모드 : 탱크를 지상에 고정시켜, 더 높은 파워로 공격 가능. 이동 불가.
+    seize_developed = False # 시즈모드 개발 여부
+    def __init__(self):
+        AttackUnit.__init__(self, "탱크", 150, 1, 35)
+        self.seize_mode = False
+        
+    def set_seize_mode(self):
+        if Tank.seize_developed == False:
+            return
+        
+        # 현재 시즈모드가 아닐 때 -> 시즈모드 변경
+        if self.seize_mode == False:
+            print("{0} : 시즈모드로 전환합니다.".format(self.name))
+            self.damage *= 2
+            self.seize_mode = True
+        else:
+            # 현재 시즈모드 일 때 -> 시즈모드 해제
+            print("{0} : 시즈모드를 해제 합니다.".format(self.name))
+            self.damage /= 2
+            self.seize_mode = True
+        
+        
+        
+        
 
 firebat1 = AttackUnit("파이어뱃", 50, 16)
 firebat1.attack("5시")
@@ -143,6 +190,10 @@ class FlyableAttackUnit(AttackUnit, Flyable):
     def __init__(self, name, hp, damage, flying_speed):
         AttackUnit.__init__(self, name, hp, damage) # self는 무조건 넣어야 함
         Flyable.__init__(self, flying_speed)
+        
+        def move(self, location):
+            print("[공중 유닛 이동]")
+            self.fly(self.name, location)
 
 
 # 발키리: 공중 공격 유닛, 한번에 14발 미사일 발사.
@@ -153,3 +204,28 @@ valkyrie.fly(valkyrie.name, "3시")
 # Unit <- 상속 - AttackUnit 
 # AttackUnit <- 상속 - FlyableAttackUnit  - 상속 -> Flyable
 # 이런 구조임
+
+
+# pass : 객체 생성한 하고 그냥 넘어 가는 것
+# 건물
+class BuildingUnit(Unit):
+    def __init__(self, name, hp, location):
+        # Unit.__init__(self, name, hp, location) # 방법1
+        super().__init__(name, hp, 0) # 방법2 super()를 사용하면 괄호를 써줘야 하고, self는 전달 하지 않아도 됨
+
+
+
+# 서플라이 디풋: 건물, 1개 건물 = 8유닛.
+# supply_depot = BuildingUnit("서플라이 디풋", 500, "7시")
+
+# def game_start():
+#     print("[알림] 새로운 게임을 시작합니다.")
+#     pass
+
+
+# def game_over():
+#     pass
+
+# game_start()
+# game_over()
+
