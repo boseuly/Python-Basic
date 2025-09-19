@@ -400,5 +400,3 @@ print('''
 --- 축하합니다 ----
       '''
     .format(chicken, coffee))
-
- 
